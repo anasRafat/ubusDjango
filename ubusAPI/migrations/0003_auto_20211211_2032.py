@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name='stationes',
-            old_name='location',
+            old_name='map',
             new_name='locationStation',
         ),
         migrations.AddField(

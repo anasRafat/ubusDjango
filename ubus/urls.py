@@ -21,5 +21,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('ubus/', include('ubusAPI.urls')),
     path('map/', include('map.urls')),
+    path('api/', include('mapapi.urls')),
 
 ]

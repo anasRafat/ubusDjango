@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('city', models.CharField(max_length=255)),
-                ('location', location_field.models.plain.PlainLocationField(max_length=63)),
+                ('map', location_field.models.plain.PlainLocationField(max_length=63)),
             ],
         ),
         migrations.CreateModel(
