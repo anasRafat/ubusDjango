@@ -18,6 +18,6 @@ class Accounts(AbstractUser):
                                       message=" Please Enter Your Egyptian Phone number:")
     mobile_phone = models.CharField(max_length=11, null=True, blank=True, verbose_name="Phone")
     facebook = models.URLField(null=True, blank=True, verbose_name="FaceBook")
-    country = CountryField(null=True)
+    # country = CountryField(null=True)
     birth_date = models.DateField(null=True, blank=True, verbose_name="BirthDate")
     profile_photo = models.ImageField(default='profile_pic/1.png', upload_to='profile_pic')
