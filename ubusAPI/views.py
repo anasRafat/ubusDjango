@@ -3,6 +3,14 @@ from django.shortcuts import render
 from ubusAPI.serializer import BusesSer, RoutesSer, StationesSer, DriverSer, RoutesStationSer, UserTicketSer
 from ubusAPI.models import Buses, Routes, Stationes, Driver, RoutesStation, UserTicket
 from rest_framework import generics
+#####3
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+
+
 
 
 class RoutesAPI(generics.ListAPIView):
@@ -29,4 +37,28 @@ class RoutesStationAPI(generics.ListAPIView):
 class UserTicketAPI(generics.ListAPIView):
     queryset = UserTicket.objects.all()
     serializer_class = UserTicketSer
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        # ...
+
+        return token
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+api_view(['GET'])
+def getRoutes(request):
+
+    routes=[
+        'view test'
+    ]
+    return Response(routes)
+
 
