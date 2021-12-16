@@ -1,6 +1,6 @@
 from django.db import models
 from location_field.models.plain import PlainLocationField
-from accounts.models import Accounts
+from users.models import User
 # Create your models here.
 
 
@@ -26,7 +26,7 @@ class RoutesStation (models.Model):
     Station = models.ForeignKey(Stationes, on_delete=models.CASCADE)
 
 class UserTicket (models.Model):
-    user = models.ForeignKey(Accounts, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 
