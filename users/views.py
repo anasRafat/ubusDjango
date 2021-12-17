@@ -42,7 +42,11 @@ class LoginView(APIView):
         payload = {
             'id': user.id,
             'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
-            'iat': datetime.datetime.utcnow()
+            'iat': datetime.datetime.utcnow(),
+            "username":user.username,
+            "last_name":user.last_name,
+            "first_name":user.first_name,
+            
         }
 
         token = jwt.encode(payload, 'secret', algorithm='HS256')
