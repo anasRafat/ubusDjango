@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from map.models import measurement
+from .models import driver
 
 
 class Mapser(serializers.ModelSerializer):
     class Meta:
-        model = measurement
+        model = driver
         fields = '__all__'

@@ -1,8 +1,12 @@
+
 from django.urls import path
 from .views import *
 
 
 urlpatterns = [
-    path("",mapview.as_view())
+    path("post/",create),
+    path("get/", drive_get),
+    path("detial/<str:name>/",drive_det),
+    path("update/<str:name>/", update)
 
 ]
