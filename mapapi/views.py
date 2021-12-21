@@ -12,18 +12,30 @@ from rest_framework.response import Response
 @api_view(['POST'])
 def create(request):
         ser = Mapser(data=request.data)
-        if ser.is_valid(): 
+        if ser.is_valid():
              ser.save()
         return Response(ser.data)
            
 @api_view(['POST'])
 def update(request,name):
+<<<<<<< HEAD
     maps = bus.objects.get(name=name)
 
     ser = Mapser(instance=maps,data=request.data)
     if ser.is_valid():
         ser.save()
     return Response(ser.data)
+=======
+    maps = driver.objects.filter(name=name)
+    if not maps:
+        ser = Mapser(data=request.data)
+        if ser.is_valid():
+            print("valid")
+            ser.save()
+        return Response(ser.data)
+    maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
+    return Response(200)
+>>>>>>> 7baef5a4a0c5ef91e67f07bd8592793c1a54ee01
 
 @api_view(['GET'])
 def drive_get(request):
