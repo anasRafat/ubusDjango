@@ -1,5 +1,5 @@
 
-from linesStops.models import Lines , Stations
+from linesStops.models import Lines , Stations , Line_cord
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import serializers
@@ -15,7 +15,12 @@ class StationsSer (serializers.ModelSerializer) :
     class  Meta:
         model = Stations
         fields = "__all__"
-
+        
+        
+class cordSer (serializers.ModelSerializer) :
+    class  Meta:
+        model = Line_cord
+        fields = "__all__"
 
 class Linesview (APIView):
       def get(self,request):
@@ -29,4 +34,11 @@ class stationsview (APIView):
             stations=Stations.objects.all()
             statins_ser=StationsSer(stations,many=True)
             return Response( statins_ser.data)
+ 
+
+class Cordsview (APIView):
+      def get(self,request):
+            cords=Line_cord.objects.all()
+            cor_ser=cordSer(cords,many=True)
+            return Response(cor_ser.data)
  
