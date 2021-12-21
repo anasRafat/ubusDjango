@@ -18,13 +18,7 @@ def create(request):
            
 @api_view(['POST'])
 def update(request,name):
-    maps = bus.objects.get(name=name)
-
-    ser = Mapser(instance=maps,data=request.data)
-    if ser.is_valid():
-        ser.save()
-    return Response(ser.data)
-    maps = driver.objects.filter(name=name)
+    maps = bus.objects.filter(name=name)
     if not maps:
         ser = Mapser(data=request.data)
         if ser.is_valid():
@@ -33,6 +27,8 @@ def update(request,name):
         return Response(ser.data)
     maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
     return Response(200)
+
+
 
 @api_view(['GET'])
 def drive_get(request):
