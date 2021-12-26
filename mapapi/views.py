@@ -23,19 +23,19 @@ class createView(generics.ListCreateAPIView):
         
 
 @api_view(['POST'])
-def update(request,name):
+def update(request, name):
     maps = bus.objects.filter(name=name)
     if not maps:
         drive = driver.objects.get(username=request.data["driver"])
-        bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive)
+        bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive, operating=True)
         return Response(200)
-    maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
+    maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"], operating=True)
     return Response(200)
 
 
 @api_view(['GET'])
 def drive_get(request):
-    maps = bus.objects.all()
+    maps = bus.objects.filter(operating=True)
     ser = Mapser(maps, many=True)
     return Response(ser.data)
 
@@ -48,8 +48,8 @@ def drive_get(request):
 
 @api_view(['DELETE'])
 def drive_delete(request,name):
-    maps = bus.objects.get(name=name)
-    maps.delete()
+    maps = bus.objects.filter(name=name)
+    maps.update(operating=False)
     return Response("delete success")
 
 

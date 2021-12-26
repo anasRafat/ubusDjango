@@ -28,6 +28,7 @@ class bus(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     driver = models.ForeignKey(driver, on_delete=models.CASCADE)
+    operating = models.BooleanField(default=False)
 
 
 
