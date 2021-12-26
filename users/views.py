@@ -28,7 +28,7 @@ class RegisterView(generics.ListCreateAPIView):
 
 class LoginView(APIView):
     def post(self, request):
-        username = request.data['username']
+        username = request.data['username'] 
         password = request.data['password']
 
         user = User.objects.filter(username=username).first()

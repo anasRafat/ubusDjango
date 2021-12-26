@@ -1,9 +1,12 @@
+import json
+
 from django.core.validators import RegexValidator
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 
-from django.conf import settings
 from django.db.models import CharField
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 class driver(models.Model):
@@ -28,6 +31,22 @@ class bus(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     driver = models.ForeignKey(driver, on_delete=models.CASCADE)
+    operating = models.BooleanField(default=False)
+
+
+    def save(self,*args,**kwars):
+        channel_layer=get_channel_layer()
+        bus_obj=bus.objects.filter(operating=True).count()
+        data={'count':bus_obj,'current_bus':self.name}
+        async_to_sync(channel_layer.group_send)(
+            'test_consumer_group',{
+                'type':'send_bus',
+                'value':json.dumps(data)
+            }
+
+        )
+        super(bus, self).save(*args,**kwars)
+
 
 
 
