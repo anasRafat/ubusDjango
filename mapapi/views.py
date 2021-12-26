@@ -1,5 +1,6 @@
 
 import jwt,datetime
+from rest_framework import generics
 
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
@@ -9,22 +10,23 @@ from .models import *
 from .serializers import *
 from rest_framework.response import Response
 
-@api_view(['POST'])
-def create(request):
-        ser = Mapser(data=request.data)
-        if ser.is_valid():
-             ser.save()
-        return Response(ser.data)
+
+class createView(generics.ListCreateAPIView):
+    queryset = bus.objects.all()
+    serializer_class = Mapser
+    # permission_classes = [IsAdminUser]
+
+    def get_user(self):
+        user = self.request.user
+        return user
            
 @api_view(['POST'])
 def update(request,name):
     maps = bus.objects.filter(name=name)
     if not maps:
-        ser = Mapser(data=request.data)
-        if ser.is_valid():
-            print("valid")
-            ser.save()
-        return Response(ser.data)
+        drive = driver.objects.get(username=request.data["driver"])
+        bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive)
+        return Response(200)
     maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
     return Response(200)
 
@@ -51,12 +53,15 @@ def drive_delete(request,name):
 
 
 
-@api_view(['POST'])
-def register(request):
-        ser = deiverser(data=request.data)
-        if ser.is_valid():
-             ser.save()
-        return Response(ser.data)
+
+class drive_register(generics.ListCreateAPIView):
+    queryset = driver.objects.all()
+    serializer_class = deiverser
+    # permission_classes = [IsAdminUser]
+
+    def get_user(self):
+        user = self.request.user
+        return user
 
 
 # @api_view(['GET'])
