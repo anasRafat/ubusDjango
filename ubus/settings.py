@@ -81,7 +81,8 @@ TEMPLATES = [
 
 
 # WSGI_APPLICATION = 'core.wsgi.application'
-ASGI_APPLICATION = 'core.asgi.application'
+# ASGI_APPLICATION = 'core.asgi.application'
+ASGI_APPLICATION = 'ubus.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {

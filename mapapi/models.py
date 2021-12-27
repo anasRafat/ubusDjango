@@ -7,6 +7,7 @@ from django.db.models import CharField
 
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.core import serializers as serial
 
 
 class driver(models.Model):
@@ -36,12 +37,13 @@ class bus(models.Model):
 
     def save(self,*args,**kwars):
         channel_layer=get_channel_layer()
-        bus_obj=bus.objects.filter(operating=True).count()
-        data={'count':bus_obj,'current_bus':self.name}
+        bus_obj=bus.objects.filter(operating=True)
+        buses = serial.serialize("json", bus_obj)
+        # data={'count':bus_obj,'current_bus':self.name,'latitude':self.latitude,'longitude':self.longitude}
         async_to_sync(channel_layer.group_send)(
             'test_consumer_group',{
                 'type':'send_bus',
-                'value':json.dumps(data)
+                'value':buses
             }
 
         )

@@ -31,7 +31,7 @@ class TestConsumer (WebsocketConsumer):
 
     def send_bus(self,event):
         print("send bus")
-        print(event.get('value'))
-        self.send(text_data=json.dumps({'paylod':event.get('value')}))
+        data=json.loads(event.get('value'))
+        self.send(text_data=(json.dumps({'paylod':data})))
 
         print("not send bus")
