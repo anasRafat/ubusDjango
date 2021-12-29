@@ -16,7 +16,10 @@ from .models import *
 from .serializers import *
 from rest_framework.response import Response
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e86f42ba3d01699ec6782970c23c53976a93e623
 from rest_framework import generics
 
 
@@ -28,6 +31,7 @@ class createView(generics.ListCreateAPIView):
     def get_user(self):
         user = self.request.user
         return user
+<<<<<<< HEAD
 
 @api_view(['POST'])
 def update(request,name):
@@ -38,11 +42,15 @@ def update(request,name):
         return Response(200)
     maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
 
+=======
+        
+>>>>>>> e86f42ba3d01699ec6782970c23c53976a93e623
 
 @api_view(['POST'])
 def update(request, name):
     maps = bus.objects.filter(name=name)
     if not maps:
+        print("fired")
         drive = driver.objects.get(username=request.data["driver"])
         bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive, operating=True)
         return Response(200)
@@ -61,7 +69,11 @@ def drive_get(request):
 #     maps = bus.objects.get(name=name)
 #     ser = Mapser(maps, many=False)
 #     return Response(ser.data)
-
+@api_view(['GET'])
+def operating_get(request, name):
+    maps = bus.objects.get(name=name)
+    ser = Mapser(maps)
+    return Response(ser.data)
 
 @api_view(['DELETE'])
 def drive_delete(request,name):
@@ -71,6 +83,7 @@ def drive_delete(request,name):
 
 
 
+<<<<<<< HEAD
 
 class drive_register(generics.ListCreateAPIView):
     queryset = driver.objects.all()
@@ -81,6 +94,8 @@ class drive_register(generics.ListCreateAPIView):
         user = self.request.user
         return user
 
+=======
+>>>>>>> e86f42ba3d01699ec6782970c23c53976a93e623
 
 
 class drive_register(generics.ListCreateAPIView):

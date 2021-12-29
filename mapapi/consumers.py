@@ -49,9 +49,12 @@ class TestConsumer (WebsocketConsumer):
         print("send bus")
         data=json.loads(event.get('value'))
         self.send(text_data=(json.dumps({'paylod':data})))
+<<<<<<< HEAD
 
         print("not send bus")
 
+=======
+>>>>>>> e86f42ba3d01699ec6782970c23c53976a93e623
 
     #
     # def send_drivers(self,event):
