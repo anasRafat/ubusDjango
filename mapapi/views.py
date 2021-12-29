@@ -1,6 +1,12 @@
+import json
+import time
 
 import jwt,datetime
 from rest_framework import generics
+from django.db.models import CharField
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
@@ -10,11 +16,9 @@ from .models import *
 from .serializers import *
 from rest_framework.response import Response
 
-<<<<<<< HEAD
-=======
+
 from rest_framework import generics
 
->>>>>>> 6dc8b5be5e248a539d0e0c9db798dff191db3420
 
 class createView(generics.ListCreateAPIView):
     queryset = bus.objects.all()
@@ -24,8 +28,7 @@ class createView(generics.ListCreateAPIView):
     def get_user(self):
         user = self.request.user
         return user
-<<<<<<< HEAD
-           
+
 @api_view(['POST'])
 def update(request,name):
     maps = bus.objects.filter(name=name)
@@ -34,8 +37,7 @@ def update(request,name):
         bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive)
         return Response(200)
     maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"])
-=======
-        
+
 
 @api_view(['POST'])
 def update(request, name):
@@ -45,7 +47,6 @@ def update(request, name):
         bus.objects.create(name=request.data["name"], latitude=request.data["latitude"], longitude=request.data["longitude"], driver=drive, operating=True)
         return Response(200)
     maps.update(latitude=request.data["latitude"], longitude=request.data["longitude"], operating=True)
->>>>>>> 6dc8b5be5e248a539d0e0c9db798dff191db3420
     return Response(200)
 
 
@@ -70,7 +71,6 @@ def drive_delete(request,name):
 
 
 
-<<<<<<< HEAD
 
 class drive_register(generics.ListCreateAPIView):
     queryset = driver.objects.all()
@@ -80,8 +80,7 @@ class drive_register(generics.ListCreateAPIView):
     def get_user(self):
         user = self.request.user
         return user
-=======
->>>>>>> 6dc8b5be5e248a539d0e0c9db798dff191db3420
+
 
 
 class drive_register(generics.ListCreateAPIView):
@@ -131,6 +130,39 @@ class LoginView(APIView):
                 'jwt': token
             }
             return response
+
+
+
+
+
+
+
+
+
+class send(APIView):
+    def post(self, request):
+        bus_obj=bus.objects.filter(operating=True)
+        buses = serial.serialize("json", bus_obj)
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            'test_consumer_group', {
+                'type': 'send_bus',
+                'value': json.dumps(buses)
+            }
+        )
+        response=Response()
+        response.data={
+            'value':buses
+        }
+        time.sleep(1)
+
+
+
+
+        return  response
+
+
+
 
 
 

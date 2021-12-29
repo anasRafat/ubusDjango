@@ -30,8 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ubusAPI',
-    'map',
+ s
     'mapapi',
     'rest_framework',
     'corsheaders',
@@ -81,7 +80,7 @@ TEMPLATES = [
 
 
 # WSGI_APPLICATION = 'core.wsgi.application'
-ASGI_APPLICATION = 'core.asgi.application'
+ASGI_APPLICATION = 'ubus.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {

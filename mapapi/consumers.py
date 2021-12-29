@@ -8,6 +8,8 @@ from asgiref.sync import async_to_sync
 class TestConsumer (WebsocketConsumer):
 
     def connect(self):
+
+
         self.room_name="test_consumer"
         self.room_group_name="test_consumer_group"
 
@@ -18,7 +20,21 @@ class TestConsumer (WebsocketConsumer):
         self.accept()
         self.send(text_data=json.dumps({'status':'connected from django channel'}))
 
+
+        print("not send bus")
+
     def receive(self,text_data):
+        # print("start")
+        # text_data_json=json.loads(text_data)
+        # message=text_data_json['value']
+        # event={
+        #     'type':'send_message',
+        #     'message':message
+        #
+        # }
+        # self.channel_layer.group_send(self.room_group_name,event)
+        
+
         print(text_data)
         self.send(text_data=json.dumps({'status':'we got you'}))
 
@@ -31,7 +47,16 @@ class TestConsumer (WebsocketConsumer):
 
     def send_bus(self,event):
         print("send bus")
-        print(event.get('value'))
-        self.send(text_data=json.dumps({'paylod':event.get('value')}))
+        data=json.loads(event.get('value'))
+        self.send(text_data=(json.dumps({'paylod':data})))
 
         print("not send bus")
+
+
+    #
+    # def send_drivers(self,event):
+    #     print("send bus")
+    #     data=json.loads(event.get('value'))
+    #     self.send(text_data=(json.dumps({'paylod':data})))
+    #
+    #     print("not send bus")

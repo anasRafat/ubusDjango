@@ -1,5 +1,5 @@
 import json
-
+from django.core import serializers as serial
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -22,6 +22,20 @@ class driver(models.Model):
     def __str__(self):
         return str(self.username)
 
+    # def save(self, *args, **kwars):
+    #     channel_layer = get_channel_layer()
+    #     bus_obj = driver.objects.all()
+    #     drivers = serial.serialize("json", bus_obj)
+    #     # data={'count':buses,'current_bus':self.name,'latitude':self.latitude,'longitude':self.longitude}
+    #     async_to_sync(channel_layer.group_send)(
+    #         'test_consumer_group', {
+    #             'type': 'send_drivers',
+    #             'value': drivers
+    #         }
+    #
+    #     )
+    #     super(driver, self).save(*args, **kwars)
+    #
 
 
 
@@ -36,12 +50,13 @@ class bus(models.Model):
 
     def save(self,*args,**kwars):
         channel_layer=get_channel_layer()
-        bus_obj=bus.objects.filter(operating=True).count()
-        data={'count':bus_obj,'current_bus':self.name}
+        bus_obj=bus.objects.filter(operating=True)
+        buses = serial.serialize("json", bus_obj)
+        # data={'count':buses,'current_bus':self.name,'latitude':self.latitude,'longitude':self.longitude}
         async_to_sync(channel_layer.group_send)(
             'test_consumer_group',{
                 'type':'send_bus',
-                'value':json.dumps(data)
+                'value':buses
             }
 
         )

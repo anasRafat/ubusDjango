@@ -8,8 +8,7 @@ from linesStops.views import Linesview , stationsview , Cordsview
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('users.urls')),
-    path('api/', include('ubusAPI.urls')),
-    path('map/', include('map.urls')),
+
     path('mapapi/', include('mapapi.urls')),
     path('lines/',Linesview.as_view()),
     path('stations/',stationsview.as_view()),

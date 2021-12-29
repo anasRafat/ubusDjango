@@ -11,6 +11,7 @@ urlpatterns = [
     path("update/<str:name>/", update),
     path("register/",  drive_register.as_view()),
     # path("get_driver/", driver_get),
-    path("login/",LoginView.as_view())
+    path("login/",LoginView.as_view()),
+    path("bus/", send.as_view())
 
 ]
