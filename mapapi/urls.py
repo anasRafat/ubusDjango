@@ -7,6 +7,7 @@ from .views import *
 urlpatterns = [
     path("post/",createView.as_view()),
     path("get/", drive_get),
+    path("operating/<str:name>/", operating_get),
     path("delete/<str:name>/",drive_delete),
     path("update/<str:name>/", update),
     path("register/",  drive_register.as_view()),
